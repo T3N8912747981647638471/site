@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Мой сайт</title>
+    <style>
+        /* Стиль для кнопки */
+        #triggerButton {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: rgba(0, 0, 0, 0.2);
+            border: none;
+            padding: 10px 20px;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            z-index: 1000;
+        }
+
+        #triggerButton:hover {
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <h1>Привет! Это мой сайт.</h1>
+
+    <!-- Кнопка для активации скрипта -->
+    <button id="triggerButton">Активировать рофлы</button>
+
+    <script>
+        (function () {
+            const ROFL_TEXTS = [
+                "💀 РОФЛ ПОДЪЕХАЛ 💀", "🔥 ГОРИ ГОРИ ЯСНО 🔥", "🧠 МНЕ СТАНОВИТСЯ СТРАШНО 🧠",
+                "🤣 РЖОМБА 🤣", "🤡 Я КЛОУН 🤡", "☠️ ХАХА УЛЕТЕЛ ☠️", "👻 ПРИВЕТ ОТ ДЖАВАСКРИПТА 👻",
+                "🫠 ЭТО УЖЕ НЕ РОФЛ, ЭТО СЛОМ 🫠", "👀 Я ВИЖУ ЗВУК", "💣 ВЗРЫВ ШИЗЫ НА 100%",
+                "🎶 NEVER GONNA GIVE YOU UP 🎶"
+            ];
+
+            const SOUND_URLS = [
+                "https://www.myinstants.com/media/sounds/windows-error.mp3",
+                "https://www.myinstants.com/media/sounds/vine-boom.mp3",
+                "https://www.myinstants.com/media/sounds/mlg-airhorn.mp3"
+            ];
+
+            const globalAudio = new Audio();
+            globalAudio.volume = 0.5;
+
+            const CSS = `
+                @keyframes spin { 
+                    0% { transform: rotate(0deg); }
+                    100% { transform: rotate(360deg); }
+                }
+
+                @keyframes shake {
+                    0% { transform: translateX(0); }
+                    25% { transform: translateX(-10px); }
+                    50% { transform: translateX(10px); }
+                    75% { transform: translateX(-10px); }
+                    100% { transform: translateX(0); }
+                }
+
+                .spinny { animation: spin 1.2s linear infinite !important; }
+                .shakey { animation: shake 0.3s infinite !important; }
+            `;
+
+            const style = document.createElement("style");
+            style.innerHTML = CSS;
+            document.head.appendChild(style);
+
+            function randomColor() {
+                return `hsl(${Math.floor(Math.random() * 360)}, 100%, 70%)`;
+            }
+
+            function randomFontSize() {
+                return `${Math.floor(Math.random() * 50 + 20)}px`;
+            }
+
+            function randomPosition() {
+                return {
+                    top: `${Math.floor(Math.random() * window.innerHeight)}px`,
+                    left: `${Math.floor(Math.random() * window.innerWidth)}px`
+                };
+            }
+
+            function createFlyingText() {
+                const text = document.createElement("div");
+                text.textContent = ROFL_TEXTS[Math.floor(Math.random() * ROFL_TEXTS.length)];
+                const { top, left } = randomPosition();
+                Object.assign(text.style, {
+                    position: "fixed",
+                    top,
+                    left,
+                    fontSize: randomFontSize(),
+                    color: randomColor(),
+                    fontWeight: "bold",
+                    zIndex: 99999,
+                    pointerEvents: "none",
+                    transform: `rotate(${Math.floor(Math.random() * 360)}deg)`
+                });
+
+                text.classList.add(Math.random() > 0.5 ? "spinny" : "shakey");
+                document.body.appendChild(text);
+
+                setTimeout(() => text.remove(), 4000);
+            }
+
+            function chaosifyPage() {
+                document.body.style.transition = "all 0.2s ease";
+                document.body.style.backgroundColor = randomColor();
+
+                document.querySelectorAll("*").forEach(el => {
+                    if (el.tagName !== "SCRIPT" && el !== style) {
+                        el.style.color = randomColor();
+                        el.style.backgroundColor = randomColor();
+                        el.style.fontSize = randomFontSize();
+                        el.style.transform = `rotate(${Math.floor(Math.random() * 30 - 15)}deg) scale(${Math.random() * 1.5 + 0.5})`;
+                        el.classList.add(Math.random() > 0.5 ? "spinny" : "shakey");
+                    }
+                });
+            }
+
+            function playRandomSound() {
+                if (Math.random() > 0.65) {
+                    globalAudio.src = SOUND_URLS[Math.floor(Math.random() * SOUND_URLS.length)];
+                    globalAudio.play().catch(() => {});
+                }
+            }
+
+            function triggerRickroll() {
+                if (Math.random() > 0.8) {
+                    const rickrollText = "🎶 NEVER GONNA GIVE YOU UP 🎶";
+                    const text = document.createElement("div");
+                    text.textContent = rickrollText;
+                    const { top, left } = randomPosition();
+                    Object.assign(text.style, {
+                        position: "fixed",
+                        top,
+                        left,
+                        fontSize: randomFontSize(),
+                        color: randomColor(),
+                        fontWeight: "bold",
+                        zIndex: 99999,
+                        pointerEvents: "none",
+                        transform: `rotate(${Math.floor(Math.random() * 360)}deg)`
+                    });
+
+                    text.classList.add(Math.random() > 0.5 ? "spinny" : "shakey");
+                    document.body.appendChild(text);
+
+                    setTimeout(() => text.remove(), 4000);
+                }
+            }
+
+            function tick() {
+                createFlyingText();
+                chaosifyPage();
+                playRandomSound();
+                triggerRickroll();
+            }
+
+            // Старт по клику
+            document.getElementById("triggerButton").addEventListener("click", () => {
+                tick(); // первый вброс
+                setInterval(tick, 800); // каждые 800 мс
+            });
+        })();
+    </script>
+</body>
+</html>
