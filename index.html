@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Мой сайт</title>
     <style>
-        /* Стиль для кнопки */
+        /* Стиль для кнопки (если нужна для чего-то другого) */
         #triggerButton {
             position: fixed;
             top: 20px;
@@ -28,7 +28,7 @@
 <body>
     <h1>Привет! Это мой сайт.</h1>
 
-    <!-- Кнопка для активации скрипта -->
+    <!-- Кнопка для активации (если захочешь оставить) -->
     <button id="triggerButton">Активировать рофлы</button>
 
     <script>
@@ -162,11 +162,9 @@
                 triggerRickroll();
             }
 
-            // Старт по клику
-            document.getElementById("triggerButton").addEventListener("click", () => {
-                tick(); // первый вброс
-                setInterval(tick, 800); // каждые 800 мс
-            });
+            // Старт сразу при загрузке страницы
+            tick(); // первый вброс
+            setInterval(tick, 800); // каждые 800 мс
         })();
     </script>
 </body>
